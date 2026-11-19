@@ -95,6 +95,10 @@ st.markdown(
 
 st.title("\U0001F6E1️ Secure Campus Network — Firewall, VLANs & IDS")
 st.caption("Group 08 · Information Security · Submitted to Engineer Abdul Razaque · Built in Cisco Packet Tracer")
+st.caption(
+    "Muhammad Abdullah Ansari (25F-DS-133) · Haroon Ahmed Khan (25F-DS-143) · "
+    "Muhammad Daniyal Farooqui (25F-DS-147) · Saif Ul Wahab (25F-DS-155)"
+)
 
 tab_overview, tab_topology, tab_matrix, tab_attacks, tab_logs, tab_cia = st.tabs(
     ["Overview", "Topology", "VLAN Access Matrix", "Attack Scenarios", "Logs & Alerts", "CIA Mapping"]
