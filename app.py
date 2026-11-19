@@ -454,4 +454,31 @@ with tab_cia:
         "control": "Control",
         "description": "How it contributes",
     })[["Control", "How it contributes"]]
-    st.dataframe(cia_display, width="stretch", hide_index=True)
+
+    rows_html = "".join(
+        f"<tr><td class='cia-control'>{r['Control']}</td>"
+        f"<td class='cia-desc'>{r['How it contributes']}</td></tr>"
+        for _, r in cia_display.iterrows()
+    )
+    st.markdown(
+        f"""
+        <style>
+        .cia-table {{ width: 100%; border-collapse: collapse; margin-top: 8px; }}
+        .cia-table th {{
+            text-align: left; padding: 10px 14px; color: {MUTED};
+            border-bottom: 1px solid {GRID}; font-weight: 600; font-size: 0.85rem;
+        }}
+        .cia-table td {{
+            padding: 12px 14px; border-bottom: 1px solid {GRID};
+            color: {TEXT}; vertical-align: top; white-space: normal;
+        }}
+        .cia-table .cia-control {{ width: 24%; font-weight: 600; color: {ACCENT}; }}
+        .cia-table .cia-desc {{ line-height: 1.5; }}
+        </style>
+        <table class="cia-table">
+            <tr><th>Control</th><th>How it contributes</th></tr>
+            {rows_html}
+        </table>
+        """,
+        unsafe_allow_html=True,
+    )
