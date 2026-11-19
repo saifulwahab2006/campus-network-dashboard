@@ -1,0 +1,15 @@
+attack_type,metric,label,value,unit
+unauthorized_access,ping_loss_before,Ping loss before ACL,0,%
+unauthorized_access,ping_loss_after,Ping loss after ACL,100,%
+ping_flood,acl_permit_t0,ACL permit matches (t=0s),1030,matches
+ping_flood,acl_permit_t10,ACL permit matches (t=10s),1310,matches
+ping_flood,flood_rate,Flood match rate during attack,28,matches/sec
+ping_flood,normal_rate,Normal single-ping match rate,1,matches/sec
+ping_flood,acl_blocked,Flood packets blocked by new rule,470,matches
+ping_flood,ping_loss_after,Ping loss after mitigation,100,%
+rogue_device,violation_before,Port security violations (legit device),0,count
+rogue_device,violation_after,Port security violations (rogue device),1,count
+rogue_device,max_mac,Max MAC addresses allowed per port,1,address
+sniffing,zones_involved,Zones that saw this traffic,2,zones
+sniffing,zones_blind,Zones with zero visibility,3,zones
+sniffing,event_hops,Total hops in captured event list,10,hops

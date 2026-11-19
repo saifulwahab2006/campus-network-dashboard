@@ -1,0 +1,6 @@
+control,confidentiality,integrity,availability,accountability,description
+VLAN segmentation,Yes,No,No,No,"5 VLANs (Student/Faculty/Admin/Server/Guest) isolate broadcast domains so a device in one zone cannot see or sniff traffic from another zone, even on the same trunk backbone (proven in Attack #1)"
+Router ACLs (least privilege),Yes,No,Yes,No,"Extended ACLs on Router0's sub-interfaces block Student/Guest from Admin+Server and limit Faculty to App-Server only, stopping unauthorized cross-VLAN access (Attack #2) and a targeted ICMP flood (Attack #3)"
+"Port security (sticky MAC, max 1)",No,Yes,No,Yes,"Shuts the port down the instant an unregistered MAC appears on an access port (rogue device, Attack #4), preserving access-layer integrity and generating a syslog record for accountability"
+SSH + strong passwords,Yes,Yes,No,Yes,"Encrypted remote management (SSH only, Telnet disabled) on Router0 and all 5 switches prevents credential sniffing and logs who configured each device"
+Centralized syslog (simulated IDS),No,No,Yes,Yes,"All 5 switches + Router0 forward security events (ACL denies, port-security violations, config changes) to one Syslog-Server, giving a single source of truth for detection and audit"

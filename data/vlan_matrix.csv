@@ -1,0 +1,6 @@
+Source,Student (VLAN10),Faculty (VLAN20),Admin (VLAN30),Server (VLAN40),Guest (VLAN50)
+Student (VLAN10),Allow,Allow,Deny,Deny,Allow
+Faculty (VLAN20),Allow,Allow,Deny,Limited,Allow
+Admin (VLAN30),Allow,Allow,Allow,Allow,Allow
+Server (VLAN40),Allow,Allow,Allow,Allow,Allow
+Guest (VLAN50),Allow,Allow,Deny,Deny,Allow
