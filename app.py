@@ -125,17 +125,29 @@ with tab_overview:
     c6.metric("SSH-secured devices", "6 / 6")
 
     st.markdown("#### Attack success rate — before vs. after controls")
+    st.caption(
+        "After controls, every attack drops to 0% — the green bars are flat at the "
+        "baseline because there's literally nothing left to show; the \"0%\" labels "
+        "confirm each one was fully blocked, not that the data is missing."
+    )
     fig = go.Figure()
     labels = [ATTACKS[k]["label"].split(": ", 1)[-1].title() for k in ATTACK_ORDER]
-    fig.add_trace(go.Bar(name="Before controls", x=labels, y=[100, 100, 100, 100], marker_color=RED))
-    fig.add_trace(go.Bar(name="After controls", x=labels, y=[0, 0, 0, 0], marker_color=GREEN))
+    fig.add_trace(go.Bar(
+        name="Before controls", x=labels, y=[100, 100, 100, 100], marker_color=RED,
+        text=["100%"] * 4, textposition="outside",
+    ))
+    fig.add_trace(go.Bar(
+        name="After controls", x=labels, y=[0, 0, 0, 0], marker_color=GREEN,
+        text=["0%"] * 4, textposition="outside",
+        marker=dict(line=dict(color=GREEN, width=3)),
+    ))
     fig.update_layout(
         barmode="group",
         plot_bgcolor=PANEL,
         paper_bgcolor="rgba(0,0,0,0)",
         font_color=TEXT,
         yaxis_title="Attack success rate (%)",
-        yaxis=dict(gridcolor=GRID, range=[0, 110]),
+        yaxis=dict(gridcolor=GRID, range=[0, 115]),
         xaxis=dict(gridcolor=GRID),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         height=360,
