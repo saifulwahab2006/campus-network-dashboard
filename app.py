@@ -139,27 +139,17 @@ with tab_overview:
     )
     st.plotly_chart(fig, width="stretch")
 
-    st.markdown("#### Build phases")
-    phases = pd.DataFrame(
-        [
-            ("Phase 1", "Design finalize", "Complete"),
-            ("Phase 2", "Baseline topology (VLANs, routing, connectivity)", "Complete"),
-            ("Phase 3", "Security controls (ACLs, port security, SSH, syslog)", "Complete"),
-            ("Phase 4", "Attack simulation + validation (4/4 attacks)", "Complete"),
-            ("Phase 5", "Evidence + dashboard (this page)", "In progress"),
-            ("Phase 6", "Report, slides, live demo", "Pending"),
-        ],
-        columns=["Phase", "What", "Status"],
-    )
-
-    def _status_color(val):
-        return {
-            "Complete": f"background-color: rgba(74,222,128,0.18); color: {GREEN};",
-            "In progress": f"background-color: rgba(251,191,36,0.18); color: {AMBER};",
-            "Pending": f"background-color: rgba(139,152,169,0.18); color: {MUTED};",
-        }.get(val, "")
-
-    st.dataframe(phases.style.map(_status_color, subset=["Status"]), width="stretch", hide_index=True)
+    with st.expander("🔑 Key terms used in this dashboard (plain-English)"):
+        terms = [
+            ("VLAN (Virtual LAN)", "Splits one physical network into separate logical zones (Student, Faculty, Admin, Server, Guest). Devices in different VLANs can't see each other's traffic by default, even on the same switch hardware."),
+            ("ACL (Access Control List)", "A rule list on the router that explicitly allows or denies traffic between zones — the mechanism behind \"least privilege\" (only Admin/Server get full access; everyone else is restricted)."),
+            ("Port security (sticky MAC)", "Locks a switch port to one specific device's hardware address. If any other device is plugged in, the port shuts itself down automatically."),
+            ("SSH", "An encrypted way to remotely manage network devices, replacing Telnet (which sends passwords in plain, readable text)."),
+            ("Centralized syslog", "Every switch and the router forward their security events to one logging server, so alerts can be reviewed in one place instead of checking each device individually."),
+            ("CIA triad", "Confidentiality, Integrity, Availability — the three goals every security control here is designed to protect, plus Accountability (who did what, traceable via logs)."),
+        ]
+        for term, definition in terms:
+            st.markdown(f"**{term}** — {definition}")
 
 # ---------------------------------------------------------------------------
 # Tab 1 — Topology (matches the actual Packet Tracer build)
@@ -272,9 +262,8 @@ with tab_topology:
     st.pyplot(fig, width="stretch")
     st.caption(
         "Solid line = Router0's single uplink to SW-Student. Dashed lines = inter-switch "
-        "trunk links (daisy-chain). Every switch's local VLAN database holds all 5 VLANs "
-        "(a lesson learned in Phase 2 — see roadmap), even though it only has an access "
-        "port for its own zone."
+        "trunk links (daisy-chain). Every switch's local VLAN database holds all 5 VLANs, "
+        "even though it only has an access port for its own zone."
     )
 
 # ---------------------------------------------------------------------------
@@ -330,9 +319,11 @@ with tab_attacks:
                 for img_path in images:
                     st.image(Image.open(img_path), width="stretch")
             else:
-                st.info(
-                    f"No screenshot in this stage yet — drop one into "
-                    f"`assets/screenshots/{attack_key}/{phase_dir}/`"
+                st.markdown(
+                    f"<div style='border:1px dashed {GRID};border-radius:8px;"
+                    f"padding:18px;text-align:center;color:{MUTED};font-size:0.85rem;'>"
+                    f"Evidence for this stage to be added</div>",
+                    unsafe_allow_html=True,
                 )
 
     show_evidence(col_before, "BEFORE", "before", info["before_desc"], MUTED)
@@ -420,7 +411,7 @@ with tab_logs:
     )
     st.caption(
         "Real syslog / ACL-deny / port-security log lines captured from the Packet Tracer "
-        "build during Phase 3 and Phase 4 testing (Syslog-Server at 10.0.40.11)."
+        "build, forwarded to the centralized Syslog-Server (10.0.40.11)."
     )
 
 # ---------------------------------------------------------------------------
